@@ -5,7 +5,6 @@ import 'package:technical_assignment/core/network/api_client.dart';
 import 'package:technical_assignment/features/product/data/datasources/product_remote_data_source.dart';
 import 'package:technical_assignment/features/product/data/repositories/product_repository_impl.dart';
 import 'package:technical_assignment/features/product/domain/entities/product_entity.dart';
-import 'package:technical_assignment/features/product/domain/repositories/product_repository.dart';
 import 'package:technical_assignment/features/product/domain/usecases/get_products.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/slider_data.dart';
 import 'package:technical_assignment/features/product/presentation/widgets/product_cart.dart';
@@ -38,14 +37,6 @@ class _HomepageState extends State<Homepage> {
     load();
   }
 
-  List<String> categories = [
-    "All",
-    "Electronics",
-    "Clothing",
-    "Home",
-    "Books",
-    "Toys",
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +94,6 @@ class _HomepageState extends State<Homepage> {
                   builder: (BuildContext context) {
                     return SizedBox(
                       width: double.infinity,
-                      // margin: EdgeInsets.symmetric(horizontal: 12.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Image.asset(image, fit: BoxFit.cover),

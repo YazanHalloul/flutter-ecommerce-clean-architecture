@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:technical_assignment/main_navigation.dart';
+import 'package:technical_assignment/features/navigation/main_navigation.dart';
 // import 'package:technical_assignment/features/storeShop/presentation/pages/HomePage.dart';
 
 void main() {
