@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:technical_assignment/core/DI/injection.dart';
 import 'package:technical_assignment/features/product/domain/entities/sort_option.dart';
-import 'package:technical_assignment/features/product/domain/usecases/get_products.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/product_cubit.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/sort_option_ext.dart';
 import 'package:technical_assignment/features/product/presentation/widgets/filter_bottom_sheet.dart';
 import 'package:technical_assignment/features/product/presentation/widgets/product_cart.dart';
+import 'package:technical_assignment/features/product/presentation/widgets/products_grid_view.dart';
 
 class ProductShop extends StatefulWidget {
   const ProductShop({super.key});
@@ -247,22 +246,8 @@ class _ProductShopState extends State<ProductShop> {
                     ProductLoading() => const Center(
                       child: CircularProgressIndicator(),
                     ),
-                    ProductLoaded() => GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.75,
-                        mainAxisSpacing: 15,
-                        crossAxisSpacing: 15,
-                      ),
-                      padding: const EdgeInsets.all(10.0),
-                      itemBuilder: (context, index) {
-                        return ProductCart(
-                          key: ValueKey(state.filteredProducts[index].id),
-                          product: state.filteredProducts[index],
-                        );
-                      },
-                      itemCount: state.filteredProducts.length,
-                      shrinkWrap: true,
+                    ProductLoaded() => ProductsGridView(
+                      products: state.filteredProducts,
                     ),
                     // TODO: Handle this case.
                     ProductError() => throw UnimplementedError(),

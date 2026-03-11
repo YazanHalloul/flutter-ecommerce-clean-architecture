@@ -2,14 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:technical_assignment/core/network/api_client.dart';
-import 'package:technical_assignment/features/product/data/datasources/product_remote_data_source.dart';
-import 'package:technical_assignment/features/product/data/repositories/product_repository_impl.dart';
 import 'package:technical_assignment/features/product/domain/entities/product_entity.dart';
-import 'package:technical_assignment/features/product/domain/usecases/get_products.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/product_cubit.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/slider_data.dart';
 import 'package:technical_assignment/features/product/presentation/widgets/product_cart.dart';
+import 'package:technical_assignment/features/product/presentation/widgets/products_grid_view.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -120,25 +117,11 @@ class _HomepageState extends State<Homepage> {
               child: BlocBuilder<ProductCubit, ProductState>(
                 builder: (context, state) {
                   return switch (state) {
-                    ProductLoading() => const Center(
-                      child: CircularProgressIndicator(),
+                    ProductLoading() => Center(
+                      child: CircularProgressIndicator(color: primaryColor),
                     ),
-                    ProductLoaded() => GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.75,
-                        mainAxisSpacing: 15,
-                        crossAxisSpacing: 15,
-                      ),
-                      padding: const EdgeInsets.all(10.0),
-                      itemBuilder: (context, index) {
-                        return ProductCart(
-                          key: ValueKey(state.popularProducts[index].id),
-                          product: state.popularProducts[index],
-                        );
-                      },
-                      itemCount: state.popularProducts.length,
-                      shrinkWrap: true,
+                    ProductLoaded() => ProductsGridView(
+                      products: state.popularProducts,
                     ),
                     // TODO: Handle this case.
                     ProductError() => throw UnimplementedError(),
