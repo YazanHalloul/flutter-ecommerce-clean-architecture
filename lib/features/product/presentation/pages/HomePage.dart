@@ -6,7 +6,6 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:technical_assignment/features/product/domain/entities/product_entity.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/product_cubit.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/slider_data.dart';
-import 'package:technical_assignment/features/product/presentation/widgets/product_cart.dart';
 import 'package:technical_assignment/features/product/presentation/widgets/products_grid_view.dart';
 
 class Homepage extends StatefulWidget {
@@ -98,7 +97,7 @@ class _HomepageState extends State<Homepage> {
                     child: FaIcon(
                       FontAwesomeIcons.fire,
                       size: 16,
-                      color: const Color(0xFFFFD369),
+                      color: primaryColor,
                     ),
                   ),
                   const Spacer(),
@@ -118,10 +117,13 @@ class _HomepageState extends State<Homepage> {
               child: BlocBuilder<ProductCubit, ProductState>(
                 builder: (context, state) {
                   return switch (state) {
-                    ProductLoading() => Skeletonizer(child: ProductsGridView(
-                      products: List.generate(8, (index) => ProductEntity.fake()),
-                    ),
-                      
+                    ProductLoading() || ProductSearching() => Skeletonizer(
+                      child: ProductsGridView(
+                        products: List.generate(
+                          4,
+                          (index) => ProductEntity.fake(),
+                        ),
+                      ),
                     ),
                     ProductLoaded() => ProductsGridView(
                       products: state.popularProducts,

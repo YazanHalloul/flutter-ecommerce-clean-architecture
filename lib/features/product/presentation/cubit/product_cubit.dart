@@ -47,7 +47,9 @@ class ProductCubit extends Cubit<ProductState> {
     if (_debounce?.isActive ?? false) {
       _debounce!.cancel();
     }
-
+    if (state is ProductLoaded) {
+      emit(ProductSearching(previousState: state));
+    }
     _debounce = Timer(const Duration(milliseconds: 800), () {
       _applyFilters(searchQuery: query);
     });
@@ -66,7 +68,9 @@ class ProductCubit extends Cubit<ProductState> {
     SortOption? sortOption,
     ProductFilter? productFilter,
   }) {
-    final currentState = state;
+    final currentState = state is ProductLoaded
+        ? state
+        : (state as ProductSearching).previousState;
 
     if (currentState is ProductLoaded) {
       final query = searchQuery ?? currentState.searchQuery;

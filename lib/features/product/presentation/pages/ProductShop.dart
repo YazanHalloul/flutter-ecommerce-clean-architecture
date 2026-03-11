@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:technical_assignment/features/product/domain/entities/product_entity.dart';
 import 'package:technical_assignment/features/product/domain/entities/sort_option.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/product_cubit.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/sort_option_ext.dart';
 import 'package:technical_assignment/features/product/presentation/widgets/filter_bottom_sheet.dart';
-import 'package:technical_assignment/features/product/presentation/widgets/product_cart.dart';
 import 'package:technical_assignment/features/product/presentation/widgets/products_grid_view.dart';
 
 class ProductShop extends StatefulWidget {
@@ -30,7 +31,7 @@ class _ProductShopState extends State<ProductShop> {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
-    final FocusNode _searchFocusNode = FocusNode();
+    final FocusNode searchFocusNode = FocusNode();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -53,7 +54,7 @@ class _ProductShopState extends State<ProductShop> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextField(
-                          focusNode: _searchFocusNode,
+                          focusNode: searchFocusNode,
                           onTapOutside: (event) {
                             FocusScope.of(context).unfocus();
                           },
@@ -65,7 +66,7 @@ class _ProductShopState extends State<ProductShop> {
                             border: InputBorder.none,
                             icon: AnimatedSwitcher(
                               duration: const Duration(milliseconds: 200),
-                              child: _searchFocusNode.hasFocus
+                              child: searchFocusNode.hasFocus
                                   ? null
                                   : const Icon(Icons.search),
                             ),
@@ -254,8 +255,13 @@ class _ProductShopState extends State<ProductShop> {
               child: BlocBuilder<ProductCubit, ProductState>(
                 builder: (context, state) {
                   return switch (state) {
-                    ProductLoading() => const Center(
-                      child: CircularProgressIndicator(),
+                    ProductLoading() || ProductSearching() => Skeletonizer(
+                      child: ProductsGridView(
+                        products: List.generate(
+                          4,
+                          (index) => ProductEntity.fake(),
+                        ),
+                      ),
                     ),
                     ProductLoaded() => ProductsGridView(
                       products: state.filteredProducts,

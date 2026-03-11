@@ -92,7 +92,7 @@ class ProductCart extends StatelessWidget {
               FaIcon(
                 FontAwesomeIcons.solidStar,
                 size: 13,
-                color: const Color(0xFFFFD369),
+                color: primaryColor,
               ),
 
               SizedBox(width: 4),

@@ -61,6 +61,16 @@ class ProductLoaded extends ProductState {
   }
 }
 
+class ProductSearching extends ProductState {
+  final ProductState previousState;
+
+  const ProductSearching({required this.previousState});
+
+  @override
+  List<Object> get props => [previousState];
+}
+
+
 class ProductError extends ProductState {
   final String message;
 
