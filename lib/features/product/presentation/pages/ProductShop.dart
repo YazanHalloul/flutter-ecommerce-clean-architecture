@@ -31,7 +31,6 @@ class _ProductShopState extends State<ProductShop> {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
-    final FocusNode searchFocusNode = FocusNode();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -54,7 +53,6 @@ class _ProductShopState extends State<ProductShop> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextField(
-                          focusNode: searchFocusNode,
                           onTapOutside: (event) {
                             FocusScope.of(context).unfocus();
                           },
@@ -64,12 +62,7 @@ class _ProductShopState extends State<ProductShop> {
                           decoration: InputDecoration(
                             hintText: 'Search for products',
                             border: InputBorder.none,
-                            icon: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 200),
-                              child: searchFocusNode.hasFocus
-                                  ? null
-                                  : const Icon(Icons.search),
-                            ),
+                            icon: const Icon(Icons.search),
 
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
@@ -93,10 +86,10 @@ class _ProductShopState extends State<ProductShop> {
                     ),
                     child: IconButton(
                       icon: Icon(Icons.tune),
-                      onPressed: () {
+                      onPressed: () async {
                         final productCubit = context.read<ProductCubit>();
                         if (productCubit.state is ProductLoaded) {
-                          showModalBottomSheet(
+                          await showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
                             builder: (bottomSheetContext) {
@@ -106,6 +99,7 @@ class _ProductShopState extends State<ProductShop> {
                               );
                             },
                           );
+                          FocusManager.instance.primaryFocus?.unfocus();
                         }
                       },
                     ),
@@ -124,7 +118,7 @@ class _ProductShopState extends State<ProductShop> {
                       constraints: BoxConstraints(minWidth: double.infinity),
                       onSelected: (value) {
                         context.read<ProductCubit>().setSortOption(value);
-                        FocusScope.of(context).unfocus();
+                        FocusManager.instance.primaryFocus?.unfocus();
                       },
                       itemBuilder: (context) => SortOption.values.map((option) {
                         return PopupMenuItem(
@@ -266,7 +260,6 @@ class _ProductShopState extends State<ProductShop> {
                     ProductLoaded() => ProductsGridView(
                       products: state.filteredProducts,
                     ),
-                    // TODO: Handle this case.
                     ProductError() => throw UnimplementedError(),
                   };
                 },
