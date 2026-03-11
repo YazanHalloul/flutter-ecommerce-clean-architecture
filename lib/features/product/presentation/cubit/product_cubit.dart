@@ -21,14 +21,17 @@ class ProductCubit extends Cubit<ProductState> {
     emit(ProductLoading());
     try {
       final result = await getProducts();
-      final prices = result.map((p) => p.price);
 
+      final prices = result.map((p) => p.price);
       final minPrice = prices.reduce((a, b) => a < b ? a : b);
       final maxPrice = prices.reduce((a, b) => a > b ? a : b);
+
+      final popular = [...result]..sort((a, b) => b.rating.compareTo(a.rating));
       emit(
         ProductLoaded(
           products: result,
           filteredProducts: result,
+          popularProducts: popular.take(10).toList(),
           searchQuery: '',
           sortOption: SortOption.none,
           productFilter: ProductFilter(minPrice: minPrice, maxPrice: maxPrice),

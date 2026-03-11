@@ -14,6 +14,7 @@ class ProductLoading extends ProductState {
 class ProductLoaded extends ProductState {
   final List<ProductEntity> products;
   final List<ProductEntity> filteredProducts;
+  final List<ProductEntity> popularProducts;
   final String searchQuery;
   final SortOption sortOption;
   final ProductFilter productFilter;
@@ -26,6 +27,7 @@ class ProductLoaded extends ProductState {
     required this.filteredProducts,
     required this.productFilter,
     required this.filterLimits,
+    required this.popularProducts,
   });
 
   @override
@@ -35,18 +37,22 @@ class ProductLoaded extends ProductState {
     filteredProducts,
     sortOption,
     productFilter,
+    popularProducts
   ];
   ProductLoaded copyWith({
     List<ProductEntity>? products,
     List<ProductEntity>? filteredProducts,
+    List<ProductEntity>? popularProducts,
     String? searchQuery,
     SortOption? sortOption,
     ProductFilter? productFilter,
     FilterLimits? filterLimits,
+
   }) {
     return ProductLoaded(
       products: products ?? this.products,
       filteredProducts: filteredProducts ?? this.filteredProducts,
+      popularProducts: popularProducts ?? this.popularProducts,
       searchQuery: searchQuery ?? this.searchQuery,
       sortOption: sortOption ?? this.sortOption,
       productFilter: productFilter ?? this.productFilter,
