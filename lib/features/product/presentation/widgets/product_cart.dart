@@ -40,9 +40,6 @@ class ProductCart extends StatelessWidget {
                   child: CachedNetworkImage(
                     imageUrl: product.image,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => Center(
-                      child: CircularProgressIndicator(color: primaryColor),
-                    ),
                     errorWidget: (context, url, error) =>
                         FaIcon(FontAwesomeIcons.productHunt),
                   ),

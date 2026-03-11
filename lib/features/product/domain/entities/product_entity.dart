@@ -22,6 +22,19 @@ class ProductEntity {
     required this.reviews,
     this.isFavorite = false,
   });
+
+  factory ProductEntity.fake() {
+    return ProductEntity(
+      id: 0,
+      title: "Loading",
+      image: "",
+      price: 0,
+      rating: 0,
+      description: '',
+      category: '',
+      reviews: [],
+    );
+  }
 }
 
 class Review {

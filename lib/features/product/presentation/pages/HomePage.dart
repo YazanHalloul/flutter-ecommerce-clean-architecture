@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:technical_assignment/features/product/domain/entities/product_entity.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/product_cubit.dart';
 import 'package:technical_assignment/features/product/presentation/cubit/slider_data.dart';
@@ -117,8 +118,10 @@ class _HomepageState extends State<Homepage> {
               child: BlocBuilder<ProductCubit, ProductState>(
                 builder: (context, state) {
                   return switch (state) {
-                    ProductLoading() => Center(
-                      child: CircularProgressIndicator(color: primaryColor),
+                    ProductLoading() => Skeletonizer(child: ProductsGridView(
+                      products: List.generate(8, (index) => ProductEntity.fake()),
+                    ),
+                      
                     ),
                     ProductLoaded() => ProductsGridView(
                       products: state.popularProducts,

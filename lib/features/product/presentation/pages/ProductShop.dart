@@ -30,6 +30,7 @@ class _ProductShopState extends State<ProductShop> {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
+    final FocusNode _searchFocusNode = FocusNode();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -52,17 +53,27 @@ class _ProductShopState extends State<ProductShop> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: TextField(
+                          focusNode: _searchFocusNode,
+                          onTapOutside: (event) {
+                            FocusScope.of(context).unfocus();
+                          },
                           onChanged: (value) {
                             context.read<ProductCubit>().setSearchQuery(value);
                           },
                           decoration: InputDecoration(
                             hintText: 'Search for products',
                             border: InputBorder.none,
-                            icon: const Icon(Icons.search),
+                            icon: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: _searchFocusNode.hasFocus
+                                  ? null
+                                  : const Icon(Icons.search),
+                            ),
+
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: primaryColor,
-                                width: 2,
+                                width: 2.5,
                               ),
                             ),
                           ),
