@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:technical_assignment/features/product/domain/entities/product_entity.dart';
@@ -8,6 +9,7 @@ class ProductCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -35,9 +37,14 @@ class ProductCart extends StatelessWidget {
                 ),
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: Image.network(
-                    product.image,
+                  child: CachedNetworkImage(
+                    imageUrl: product.image,
                     fit: BoxFit.cover,
+                    placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(color: primaryColor),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        FaIcon(FontAwesomeIcons.productHunt),
                   ),
                 ),
               ),
@@ -55,9 +62,7 @@ class ProductCart extends StatelessWidget {
                     icon: FaIcon(
                       FontAwesomeIcons.solidHeart,
                       size: 16,
-                      color: product.isFavorite
-                          ? Colors.red
-                          : Colors.grey,
+                      color: product.isFavorite ? Colors.red : Colors.grey,
                     ),
                     onPressed: () {
                       // setState(() {
@@ -90,7 +95,7 @@ class ProductCart extends StatelessWidget {
               FaIcon(
                 FontAwesomeIcons.solidStar,
                 size: 13,
-                color: Color(0xFFFFD369),
+                color: const Color(0xFFFFD369),
               ),
 
               SizedBox(width: 4),

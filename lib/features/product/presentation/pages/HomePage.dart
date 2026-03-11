@@ -37,9 +37,10 @@ class _HomepageState extends State<Homepage> {
     load();
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -66,10 +67,7 @@ class _HomepageState extends State<Homepage> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: IconButton(
-                icon: const FaIcon(
-                      FontAwesomeIcons.magnifyingGlass,
-                      size: 20,
-                    ),
+                icon: const FaIcon(FontAwesomeIcons.magnifyingGlass, size: 20),
                 onPressed: () {
                   // Navigate to the shopping cart page
                 },
@@ -108,23 +106,23 @@ class _HomepageState extends State<Homepage> {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Popular Products",
                     style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 8.0),
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: FaIcon(
                       FontAwesomeIcons.fire,
                       size: 16,
-                      color: Color(0xFFFFD369),
+                      color: const Color(0xFFFFD369),
                     ),
                   ),
-                  Spacer(),
-                  Text(
+                  const Spacer(),
+                  const Text(
                     "See All",
                     style: TextStyle(
                       color: Colors.grey,

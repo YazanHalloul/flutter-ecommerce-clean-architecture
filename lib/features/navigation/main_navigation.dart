@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:technical_assignment/features/navigation/main_navigation_cubit.dart';
 import 'package:technical_assignment/features/product/presentation/pages/HomePage.dart';
+import 'package:technical_assignment/features/product/presentation/pages/ProductShop.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -14,7 +15,7 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   final List<Widget> _pages = <Widget>[
     Homepage(),
-    Text('Index 1'),
+    ProductShop(),
     Text('Index 2'),
     Text('Index 3'),
     Text('Index 4'),
@@ -22,6 +23,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return BlocProvider(
       create: (context) => MainNavigationCubit(),
       child: Scaffold(
@@ -46,7 +49,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 backgroundColor: Colors.white,
                 showUnselectedLabels: false,
                 selectedItemColor: Color(0xFF222831),
-                selectedIconTheme: IconThemeData(color: Color(0xFFFFD369)),
+                selectedIconTheme: IconThemeData(color: primaryColor),
                 unselectedItemColor: Color(0xFF222831),
                 selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                 currentIndex: state,
